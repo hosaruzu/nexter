@@ -14,6 +14,27 @@ $color-grey-dark-2: #6d5d4b;
 $font-primary: 'Nunito', sans-serif;
 $font-display: 'Josefin Sans', sans-serif;
 
+/* breakpoints */
+
+/* 1200px */
+$bp-large: 75em;
+
+/* 1000px */
+$bp-tablet: 63em;
+
+/* 800px */
+$bp-mid: 50em;
+
+/* 600px */
+$bp-small: 38em;
+
+/* media mixin */
+@mixin bp($point) {
+  @media (max-width: $point) {
+    @content;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -25,6 +46,10 @@ $font-display: 'Josefin Sans', sans-serif;
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+
+  @include bp($bp-large) {
+    font-size: 50%;
+  }
 }
 
 body {
@@ -37,9 +62,21 @@ body {
 
 .container {
   display: grid;
-  grid-template-rows: 80vh auto 40vw repeat(3, auto);
+  grid-template-rows: 80vh min-content 40vw repeat(3, auto);
   grid-template-columns:
     [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr)
     [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end]
     minmax(6rem, 1fr) [full-end];
+
+  @include bp($bp-tablet) {
+    grid-template-rows: 6rem 80vh min-content 40vw repeat(3, auto);
+    grid-template-columns:
+      [full-start] minmax(6rem, 1fr)
+      [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end]
+      minmax(6rem, 1fr) [full-end];
+  }
+
+  @include bp($bp-mid) {
+    grid-template-rows: 6rem calc(100vh - 6rem);
+  }
 }
